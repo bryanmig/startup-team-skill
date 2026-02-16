@@ -2,7 +2,7 @@
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) plugin that simulates an adversarial leadership team to stress-test your startup and product ideas before you commit to building them.
 
-Run `/startup <your idea>` and 15 domain-expert personas — from Head of Product to Principal SRE to Head of Security — will debate, challenge, and refine your idea across multiple rounds. The result is a structured decision document capturing the recommendation, dissenting views, risks, and concrete next steps.
+Run `/startup <your idea>` and 15 domain-expert personas — from Head of Product to Principal SRE to Head of Security — will debate, challenge, and refine your idea across multiple rounds. The result is a structured decision document and, if the team recommends proceeding, a complete product requirements document ready for engineers or agent teams to start building from.
 
 ## Installation
 
@@ -72,7 +72,7 @@ The `--max-iterations` flag controls the maximum number of adversarial rounds (d
 
 ### Output
 
-Each run produces a decision document at `docs/decisions/YYYY-MM-DD-<slug>.md` containing:
+Each run produces a **decision document** at `docs/decisions/YYYY-MM-DD-<slug>.md`:
 
 - **Idea Summary** — the idea refined through discussion
 - **Participants** — who weighed in and their final stances
@@ -82,6 +82,18 @@ Each run produces a decision document at `docs/decisions/YYYY-MM-DD-<slug>.md` c
 - **Risks & Mitigations** — failure modes with concrete mitigations
 - **Vetoes** — any veto holders who blocked, and resolution status
 - **Next Steps** — concrete actions if proceeding
+
+If the recommendation is PROCEED or PROCEED WITH CONDITIONS, a **product requirements document** is also generated at `docs/prd/YYYY-MM-DD-<slug>-prd.md`:
+
+- **Problem Statement** — who, what pain, why now
+- **Target User** — specific role, context, workflow
+- **Success Metrics** — with concrete targets and measurement methods
+- **Functional Requirements** — numbered, prioritized (P0/P1/P2), with acceptance criteria
+- **Non-Functional Requirements** — security, reliability, quality, performance, observability
+- **Architecture Guidance** — chosen approach, rejected alternatives, open questions
+- **Out of Scope** — what was explicitly excluded and why
+- **Implementation Phases** — phased delivery with decision gates and veto holder sign-offs
+- **Traceability Matrix** — every requirement mapped to the persona argument that established it
 
 ## How It Works
 
@@ -101,7 +113,9 @@ Each run produces a decision document at `docs/decisions/YYYY-MM-DD-<slug>.md` c
 Reality > Safety > Correctness > Long-Term > UX > Market > Speed > Narrative
 ```
 
-**Phase 4 — Documentation.** A decision document is written to `docs/decisions/YYYY-MM-DD-<slug>.md` with the full recommendation, supporting arguments, dissenting views, risks, vetoes, and next steps.
+**Phase 4 — Decision Document.** A decision document is written to `docs/decisions/YYYY-MM-DD-<slug>.md` with the full recommendation, supporting arguments, dissenting views, risks, vetoes, and next steps.
+
+**Phase 5 — Product Requirements Document.** If the team recommends proceeding (PROCEED or PROCEED WITH CONDITIONS), a complete PRD is generated at `docs/prd/YYYY-MM-DD-<slug>-prd.md`. Every requirement traces back to a specific persona's argument or veto condition. The PRD is structured so an engineering team or AI agent team can begin implementing immediately without reading the decision document.
 
 ## The Team
 
@@ -171,6 +185,7 @@ startup-team-skill/
 │   └── head-of-communications.md             # Claire Donovan
 └── docs/
     ├── decisions/                            # Generated decision documents
+    ├── prd/                                  # Generated product requirements documents
     └── plans/                                # Design and implementation plans
 ```
 

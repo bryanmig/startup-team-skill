@@ -157,6 +157,98 @@ agent writer:
     Filename format: YYYY-MM-DD-<slug>.md
   """
 
+agent prd_writer:
+  model: opus
+  prompt: """
+    You write product requirements documents that engineering teams and
+    AI agent teams can immediately begin implementing from.
+
+    Given a full adversarial team discussion, synthesis, and decision document,
+    produce a comprehensive PRD. Every requirement must be traceable to a
+    specific persona's argument, veto condition, or team consensus from the
+    discussion. Do NOT invent requirements that weren't established in the debate.
+
+    Write the PRD to docs/prd/ with today's date and a slug derived from the idea.
+    Create the docs/prd/ directory if it doesn't exist.
+    Filename format: YYYY-MM-DD-<slug>-prd.md
+
+    Required sections:
+
+    # PRD: [Product Name]
+    Date, status, decision owner, link to decision document.
+
+    ## Problem Statement
+    Who has this problem, what the pain is, why now.
+    Derived from the team discussion — cite which personas identified which aspects.
+
+    ## Target User
+    Primary persona(s) this product serves. Be specific: role, context, workflow.
+    Pull from Maya (customer success), Jonah (GTM), and Ava (design) positions.
+
+    ## Success Metrics
+    Primary metric and supporting metrics with concrete targets.
+    Must match what Priya (data) and the decision owner agreed to.
+    Format: metric name, target value, measurement method, owner.
+
+    ## Functional Requirements
+    Numbered list grouped by feature area. Each requirement:
+    - FR-[area]-[N]: [requirement statement]
+    - Priority: P0 (launch blocker) / P1 (MVP) / P2 (fast-follow)
+    - Source: [persona name and their argument/condition]
+    - Acceptance criteria: [how to verify this is done]
+
+    Extract these from: persona positions, conditions for support, veto conditions,
+    and the synthesized recommendation. Veto conditions are always P0.
+
+    ## Non-Functional Requirements
+    Same format as functional requirements, covering:
+    - Security (from Renee's positions and veto conditions)
+    - Reliability (from Tom's positions and veto conditions)
+    - Quality/Correctness (from Sofia's positions and veto conditions)
+    - Performance (from Marcus/Tom's positions)
+    - Scalability (from Victor's architecture positions)
+    - Observability (from Priya's measurement requirements)
+    - Developer Experience (from Elliot's positions)
+
+    Only include categories where a persona actually raised requirements.
+
+    ## Architecture Guidance
+    Technical direction established during the discussion. NOT a detailed design —
+    just the constraints and decisions the team already made.
+    Pull from Ishan, Victor, Marcus, and Tom's positions.
+    Include: chosen approach, rejected alternatives (and why), open questions.
+
+    ## Out of Scope
+    What was explicitly excluded, deferred, or rejected during the discussion.
+    Cite which persona argued for exclusion and why.
+
+    ## Risks & Mitigations
+    Carry forward from the decision document. Each risk:
+    - Description, likelihood, impact, mitigation, owner.
+
+    ## Open Questions
+    Unresolved tensions or dissenting views from the discussion that need
+    resolution during implementation. Cite the disagreeing personas.
+
+    ## Implementation Phases
+    Phased delivery plan derived from the team's timeline discussion.
+    Each phase: scope, duration, deliverables, decision gates, owners.
+    Veto holder sign-off requirements at each gate.
+
+    ## Appendix: Traceability Matrix
+    Table mapping each requirement back to the persona and argument that
+    established it. Columns: Requirement ID, Source Persona, Original Argument
+    (quoted or paraphrased), Discussion Round.
+
+    IMPORTANT RULES:
+    - Every requirement must trace to a specific persona's argument or condition.
+    - Veto conditions become P0 non-functional requirements, always.
+    - Dissenting views become open questions, not ignored.
+    - Do not add requirements that nobody argued for.
+    - Use the team's own language — quote personas where possible.
+    - The PRD must be implementable by someone who never read the decision document.
+  """
+
 # ─── Phase 0: Select Relevant Personas ───
 
 let selected = session: selector
@@ -261,12 +353,33 @@ let decision = session: synthesizer
   """
   context: { positions, selected }
 
-# ─── Write Decision Document ───
+# ─── Phase 4: Write Decision Document ───
 
-session: writer
+let decision_doc = session: writer
   prompt: """
     Write the full decision document based on the team evaluation.
 
     IDEA: {idea}
   """
   context: { decision, positions, selected }
+
+# ─── Phase 5: Write Product Requirements Document ───
+# Only produced when the team recommends proceeding.
+
+if decision recommends PROCEED or PROCEED WITH CONDITIONS:
+  session: prd_writer
+    prompt: """
+      The team has recommended proceeding. Write a complete product requirements
+      document that an engineering team or AI agent team can implement from.
+
+      IDEA: {idea}
+
+      Synthesize ALL positions, veto conditions, dissenting views, and the final
+      decision into actionable, traceable requirements. Every requirement must
+      cite which persona established it and why.
+
+      The PRD must stand alone — an implementer should not need to read the
+      decision document to understand what to build, though they should read it
+      to understand why.
+    """
+    context: { decision, decision_doc, positions, selected }

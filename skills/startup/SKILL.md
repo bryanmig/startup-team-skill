@@ -5,7 +5,7 @@ description: Use when evaluating a startup or product idea with an adversarial t
 
 # Startup Team Simulation
 
-Simulate an adversarial leadership team discussion to evaluate a product or business idea. 15 domain-expert personas debate, challenge, and refine the idea across multiple rounds until consensus or clear disagreement emerges.
+Simulate an adversarial leadership team discussion to evaluate a product or business idea. 15 domain-expert personas debate, challenge, and refine the idea across multiple rounds until consensus or clear disagreement emerges. If the team recommends proceeding, a complete product requirements document is generated — ready for engineers or agent teams to begin implementing.
 
 ## Argument Parsing
 

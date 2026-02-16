@@ -1,0 +1,19 @@
+{
+  "name": "startup-team-marketplace",
+  "owner": {
+    "name": "bryanmig",
+    "url": "https://github.com/bryanmig"
+  },
+  "metadata": {
+    "description": "Adversarial startup team simulation for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "startup-team",
+      "source": "./",
+      "description": "15 domain-expert personas debate and stress-test your business ideas before you build",
+      "version": "1.0.0"
+    }
+  ]
+}

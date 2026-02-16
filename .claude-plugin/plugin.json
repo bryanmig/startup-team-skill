@@ -1,0 +1,20 @@
+{
+  "name": "startup-team",
+  "description": "Adversarial startup team simulation — 15 domain-expert personas debate, challenge, and stress-test your business ideas before you build",
+  "version": "1.0.0",
+  "author": {
+    "name": "bryanmig",
+    "url": "https://github.com/bryanmig"
+  },
+  "repository": "https://github.com/bryanmig/startup-team-skill",
+  "license": "MIT",
+  "keywords": [
+    "startup",
+    "evaluation",
+    "adversarial",
+    "team-simulation",
+    "decision-making",
+    "personas",
+    "product-strategy"
+  ]
+}

@@ -22,12 +22,11 @@ Examples:
 
 1. Set variable `idea` to the parsed idea text
 2. Set variable `max_iterations` to the parsed value (default 5)
-3. Set variable `personas_dir` to the path of the `personas/` directory in the current project
+3. Set variable `personas_dir` to the `personas/` directory located in this plugin's root (two levels up from this skill file: `../../personas/`)
 4. Read `startup.prose` from this skill directory
 5. Become the OpenProse VM (read `prose.md` from the open-prose skill) and execute `startup.prose`
 
 ## Requirements
 
-- The current project must have a `personas/` directory containing persona definition files
-- The `personas/` directory must contain `company-decision-instructions.md` and `engineering-decision-instructions.md`
-- The open-prose skill must be available for VM execution
+- The open-prose skill must be installed and available for VM execution
+- This plugin ships with all 15 persona definitions and decision frameworks in `personas/`

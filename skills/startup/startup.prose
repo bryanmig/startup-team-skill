@@ -334,18 +334,61 @@ agent persona_creator:
     - Create the .claude/personas/ directory if it doesn't exist.
   """
 
-# ─── Phase 0: Select Relevant Personas ───
+# ─── Phase 0a: Select Relevant Personas + Detect Gaps ───
 
-let selected = session: selector
+let selection = session: selector
   prompt: """
     Evaluate this business idea and select the team members who should
     weigh in on it:
 
     IDEA: {idea}
 
-    Select 5-8 personas. Always include veto holders if their domain applies.
-    Identify the decision owner.
+    Select 5-8 personas from both the built-in roster AND any project-local
+    personas in .claude/personas/. Always include veto holders if their domain
+    applies. Identify the decision owner.
+
+    After selecting, evaluate whether any critical domain perspective is missing.
   """
+
+# ─── Phase 0b: Confirm Missing Personas (if any) ───
+# If the selector identified gaps, present them to the user for approval.
+# The VM should display each proposed persona and ask the user to confirm
+# before proceeding. Skip this phase if no gaps were identified.
+
+if selection contains MISSING PERSPECTIVES (other than "No critical gaps identified."):
+  for each missing_persona in selection.MISSING_PERSPECTIVES:
+    confirm with user: """
+      The team is missing a critical perspective for this idea:
+
+      **{missing_persona.role_title}** — {missing_persona.domain_gap}
+      Reason: {missing_persona.justification}
+      Veto eligible: {missing_persona.veto_eligible}
+
+      Create this persona? They will be saved to .claude/personas/ for future reuse.
+    """
+
+    # ─── Phase 0c: Create Approved Personas ───
+    if user confirms:
+      session: persona_creator
+        prompt: """
+          Create a new team persona for the startup evaluation team.
+
+          ROLE: {missing_persona.role_title}
+          DOMAIN: {missing_persona.domain_gap}
+          JUSTIFICATION: {missing_persona.justification}
+          VETO ELIGIBLE: {missing_persona.veto_eligible}
+
+          Read the exemplar persona file first, then generate a complete
+          persona definition matching its exact structure and depth.
+
+          Save the file to .claude/personas/<kebab-case-role>.md in the
+          current project directory. Create the directory if needed.
+        """
+
+      # Add the newly created persona to the selected list
+      add new persona to selection.SELECTED_PERSONAS
+
+let selected = selection.SELECTED_PERSONAS
 
 # ─── Phase 1: Initial Positions (Parallel) ───
 

@@ -2,7 +2,7 @@
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) plugin that simulates an adversarial leadership team to stress-test your startup and product ideas before you commit to building them.
 
-Run `/startup <your idea>` and 15 domain-expert personas — from Head of Product to Principal SRE to Head of Security — will debate, challenge, and refine your idea across multiple rounds. The result is a structured decision document and, if the team recommends proceeding, a complete product requirements document ready for engineers or agent teams to start building from.
+Run `/startup <your idea>` and a team of domain-expert personas — from Head of Product to Principal SRE to Head of Security — will debate, challenge, and refine your idea across multiple rounds. 15 personas are built in, and the skill dynamically creates new ones when your idea touches a domain they don't cover. The result is a structured decision document and, if the team recommends proceeding, a complete product requirements document ready for engineers or agent teams to start building from.
 
 ## Installation
 
@@ -101,7 +101,7 @@ If the recommendation is PROCEED or PROCEED WITH CONDITIONS, a **product require
 /startup AI-powered code review tool that learns team patterns
 ```
 
-**Phase 0 — Team Selection.** A selector agent analyzes your idea and picks 5-8 relevant personas. Veto holders (Security, SRE, Quality, Architecture) are always included when their domain applies.
+**Phase 0 — Team Selection.** A selector agent analyzes your idea and picks 5-8 relevant personas from the built-in 15 plus any previously-created project-local personas. Veto holders are always included when their domain applies. If the idea touches a domain no existing persona covers, the selector flags the gap, asks you to confirm, and a new full-depth persona is created and saved to `.claude/personas/` in your project for future reuse.
 
 **Phase 1 — Initial Positions.** All selected personas respond in parallel with their domain-specific assessment: opportunities, risks, conditions for support, and an initial stance.
 
@@ -154,6 +154,14 @@ Four roles can exercise vetoes within their domain:
 
 Vetoes must be specific, actionable, and proportional. They're conditions to resolve, not permanent blocks.
 
+### Dynamic Personas
+
+When your idea touches a domain the built-in team doesn't cover — healthcare regulation, fintech compliance, hardware engineering, supply chain logistics — the selector detects the gap and proposes creating a new persona. You confirm, and a `persona_creator` agent generates a full-depth persona matching the exact format of the built-in 15: career arc, values, blind spots, frameworks, voice, and all.
+
+Dynamic personas are saved to `.claude/personas/` in your project directory. On subsequent runs, the selector discovers them automatically and includes them in the available roster. A persona created for one idea evaluation is available for all future evaluations in that project.
+
+Dynamic personas can be granted veto authority when their domain warrants it (e.g., a Chief Compliance Officer for a regulated industry). The synthesizer honors these vetoes with the same weight as the built-in four.
+
 ## Plugin Structure
 
 ```
@@ -187,6 +195,10 @@ startup-team-skill/
     ├── decisions/                            # Generated decision documents
     ├── prd/                                  # Generated product requirements documents
     └── plans/                                # Design and implementation plans
+
+# In the PROJECT where /startup is invoked:
+# .claude/
+#   └── personas/                             # Dynamically created personas (persists across sessions)
 ```
 
 ## Customization

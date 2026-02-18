@@ -9,7 +9,7 @@ Run `/startup <your idea>` and a team of domain-expert personas — from Head of
 ### Prerequisites
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) CLI installed and configured
-- The [OpenProse](https://github.com/bryanmig/open-prose) plugin installed (execution engine for the adversarial loop)
+- The [OpenProse](https://github.com/openprose/prose) plugin installed (execution engine for the adversarial loop)
 
 ### Install from Marketplace
 

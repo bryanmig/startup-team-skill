@@ -31,6 +31,11 @@ agent selector:
     - Lena Moritz, Product Marketing: {personas_dir}/head-of-product-marketing.md
     - Claire Donovan, Head of Communications: {personas_dir}/head-of-communications.md
 
+    Additionally, check for any previously-created personas in the current
+    project's .claude/personas/ directory. If any exist, read each file and
+    add them to your available roster with the same format:
+    - [Name], [Title]: .claude/personas/[filename].md
+
     Decision ownership reference:
     - Product direction & prioritization → Elena
     - Engineering execution & delivery → Marcus
@@ -48,12 +53,26 @@ agent selector:
     - Positioning, messaging → Lena
     - External communications & narrative → Claire
 
+    After selecting from the available roster, evaluate whether any CRITICAL
+    domain perspective is missing. A gap exists when:
+    - The idea meaningfully touches a domain no existing persona covers
+    - No current persona can adequately stretch to cover it
+    - The missing perspective would materially change the evaluation
+
+    Do NOT flag a gap for domains that existing personas can reasonably cover.
+    For example, Renee covers general security — only flag a gap if the idea
+    requires deep SPECIALIZED expertise (e.g., healthcare regulation, fintech
+    compliance, hardware engineering) that goes beyond her domain.
+
     Output a structured list:
     1. DECISION OWNER: [Name] — [why this decision class]
     2. SELECTED PERSONAS (one per line):
        - [Name] | [File path] | [Why relevant to this idea]
     3. EXCLUDED PERSONAS (one per line):
        - [Name] | [Why not relevant]
+    4. MISSING PERSPECTIVES (if any):
+       - [Role Title] | [Domain gap] | [Why no existing persona covers this] | [Veto eligible: yes/no and why]
+       If none: "No critical gaps identified."
   """
 
 agent evaluator:

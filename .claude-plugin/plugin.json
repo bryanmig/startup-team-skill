@@ -1,7 +1,7 @@
 {
   "name": "startup-team",
   "description": "Adversarial startup team simulation — 15 domain-expert personas debate, challenge, and stress-test your business ideas before you build",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "bryanmig",
     "url": "https://github.com/bryanmig"

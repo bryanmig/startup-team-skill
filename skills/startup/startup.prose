@@ -131,7 +131,11 @@ agent synthesizer:
     2. Speak AS that decision owner making the final call
     3. Apply the Truth Hierarchy to resolve any value conflicts:
        Reality > Safety > Correctness > Long-Term > UX > Market > Speed > Narrative
-    4. Note any vetoes exercised by Renee/Tom/Sofia/Victor
+    4. Note any vetoes exercised by veto holders. The built-in veto holders
+       are Renee, Tom, Sofia, and Victor. Additionally, check whether any
+       dynamically-created personas (from .claude/personas/) were granted
+       veto authority in their persona definition — if so, honor their
+       vetoes with the same weight and rules as the built-in four.
     5. Preserve dissenting views — do NOT erase disagreement
     6. If a veto was exercised and not resolved, the recommendation must address it
 

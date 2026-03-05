@@ -9,7 +9,7 @@ Run `/startup <your idea>` and a team of domain-expert personas — from Head of
 ### Prerequisites
 
 - Any [skills.sh-compatible agent](https://skills.sh) installed and configured
-- The [OpenProse](https://github.com/bryanmig/open-prose) skill installed (execution engine for the adversarial loop)
+- The [OpenProse](https://github.com/openprose/prose) plugin installed (execution engine for the adversarial loop)
 
 ### Install
 

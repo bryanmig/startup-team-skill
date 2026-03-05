@@ -1,6 +1,6 @@
 # Startup Team Skill
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) plugin that simulates an adversarial leadership team to stress-test your startup and product ideas before you commit to building them.
+An [agent skill](https://skills.sh) that simulates an adversarial leadership team to stress-test your startup and product ideas before you commit to building them. Works with any agent that supports [skills.sh](https://skills.sh) — including Claude Code, Cursor, Codex, Cline, Windsurf, Gemini, GitHub Copilot, and [more](https://skills.sh).
 
 Run `/startup <your idea>` and a team of domain-expert personas — from Head of Product to Principal SRE to Head of Security — will debate, challenge, and refine your idea across multiple rounds. 15 personas are built in, and the skill dynamically creates new ones when your idea touches a domain they don't cover. The result is a structured decision document and, if the team recommends proceeding, a complete product requirements document ready for engineers or agent teams to start building from.
 
@@ -8,32 +8,16 @@ Run `/startup <your idea>` and a team of domain-expert personas — from Head of
 
 ### Prerequisites
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) CLI installed and configured
-- The [OpenProse](https://github.com/bryanmig/open-prose) plugin installed (execution engine for the adversarial loop)
+- Any [skills.sh-compatible agent](https://skills.sh) installed and configured
+- The [OpenProse](https://github.com/bryanmig/open-prose) skill installed (execution engine for the adversarial loop)
 
-### Install from Marketplace
-
-**Step 1 — Add the marketplace:**
+### Install
 
 ```bash
-/plugin marketplace add bryanmig/startup-team-skill
-```
-
-**Step 2 — Install the plugin:**
-
-```bash
-/plugin install startup-team@startup-team-marketplace
+npx skills add bryanmig/startup-team-skill
 ```
 
 That's it. The `/startup` command is now available.
-
-### Install Manually
-
-If you prefer not to use the marketplace, clone directly into your Claude Code plugins directory:
-
-```bash
-git clone https://github.com/bryanmig/startup-team-skill.git ~/.claude/plugins/startup-team-skill
-```
 
 ### Verify Installation
 
